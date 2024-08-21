@@ -51,9 +51,18 @@ app.use('/api/v1/jobs', authenticateUser, jobRouter);
 app.use('/api/v1/users', authenticateUser, userRouter);
 app.use('/api/v1/auth', authRouter);
 
+const distPath = path.join(__dirname, 'client', 'dist');
+console.log('Serving static files from:', distPath);
+app.use(express.static(distPath));
+
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './client/dist', 'index.html'));
+  res.sendFile(path.join(distPath, 'index.html'), (err) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
 });
+
 
 app.use('*', (req, res) => {
   res.status(404).json({ msg: 'not found' });
@@ -61,7 +70,7 @@ app.use('*', (req, res) => {
 
 app.use(errorHandlerMiddleware);
 
-const port = process.env.PORT || 5100;
+const port = process.env.PORT || 3000;
 
 try {
   await mongoose.connect(process.env.MONGO_URL);
@@ -69,6 +78,6 @@ try {
     console.log(`server running on PORT ${port}...`);
   });
 } catch (error) {
-  console.log(error);
+  console.log("error starting server");
   process.exit(1);
 }
