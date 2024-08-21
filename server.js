@@ -35,6 +35,21 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use(express.static(path.resolve(__dirname, './client/dist')));
 app.use(cookieParser());
+
+//cors
+const corsOptions = {
+  origin: (origin, callback) => {
+    
+    if (!origin) return callback(null, true);
+    callback(null, true); 
+  },
+  methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(helmet());
 app.use(mongoSanitize());
