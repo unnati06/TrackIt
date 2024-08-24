@@ -20,7 +20,11 @@
     "cloudinary": "^1.37.3",
     "concurrently": "^8.0.1",
     "cookie-parser": "^1.4.6",
+<<<<<<< HEAD
     "cors": "^2.8.5",
+=======
+    "cors":  "^2.8.5",
+>>>>>>> c9fb64a506be3004bfc4efef110362fa67410ccc
     "datauri": "^4.1.0",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",

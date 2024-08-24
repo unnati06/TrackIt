@@ -5,6 +5,7 @@ import express from 'express';
 const app = express();
 import morgan from 'morgan';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import cloudinary from 'cloudinary';
