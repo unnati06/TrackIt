@@ -4,7 +4,6 @@ import { FormRow, Logo, SubmitBtn } from '../components';
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
 
-
 export const action =
   (queryClient) =>
   async ({ request }) => {
@@ -29,9 +28,9 @@ const Login = () => {
       email: 'demotest@test.com',
       password: 'secret123',
     };
-    
     try {
-      await customFetch.post('/auth/login', data);
+      const response = await customFetch.post('/auth/login', data);
+      console.log('Login successful:', response.data);
       toast.success('Take a test drive');
       navigate('/dashboard');
     } catch (error) {
@@ -41,9 +40,7 @@ const Login = () => {
   return (
     <Wrapper>
       <Form method='post' className='form'>
-        <Link to='/' >
         <Logo />
-        </Link>
         <h4>login</h4>
         <FormRow type='email' name='email' />
         <FormRow type='password' name='password' />

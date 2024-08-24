@@ -7,7 +7,7 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
     gap: 0 0.5rem;
-    background: pink;
+    background: #572649;
 
   }
   .img {

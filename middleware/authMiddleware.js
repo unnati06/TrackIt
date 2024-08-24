@@ -15,7 +15,7 @@ export const authenticateUser = (req, res, next) => {
     req.user = { userId, role, testUser };
     next();
   } catch (error) {
-    throw new UnauthenticatedError('authentication invalid');
+    throw new UnauthenticatedError('authentication invalid catch');
   }
 };
 

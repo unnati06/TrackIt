@@ -56,7 +56,7 @@ const Wrapper = styled.aside`
     transition: var(--transition);
   }
   .nav-link:hover {
-    color: pink;
+    color: #572649;
   }
   .icon {
     font-size: 1.5rem;
