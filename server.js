@@ -6,7 +6,6 @@ const app = express();
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
 import cloudinary from 'cloudinary';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
@@ -67,18 +66,9 @@ app.use('/api/v1/jobs', authenticateUser, jobRouter);
 app.use('/api/v1/users', authenticateUser, userRouter);
 app.use('/api/v1/auth', authRouter);
 
-const distPath = path.join(__dirname, 'client', 'dist');
-console.log('Serving static files from:', distPath);
-app.use(express.static(distPath));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(distPath, 'index.html'), (err) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-  });
+app.get('*', (req,res) => {
+  res.sendFile(path.resolve(__dirname, './public','index.html'))
 });
-
 
 app.use('*', (req, res) => {
   res.status(404).json({ msg: 'not found' });
