@@ -6,6 +6,7 @@ const app = express();
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import cloudinary from 'cloudinary';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
@@ -35,6 +36,21 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use(express.static(path.resolve(__dirname, './client/dist')));
 app.use(cookieParser());
+
+//cors
+const corsOptions = {
+  origin: (origin, callback) => {
+    
+    if (!origin) return callback(null, true);
+    callback(null, true); 
+  },
+  methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(helmet());
 app.use(mongoSanitize());
@@ -51,9 +67,18 @@ app.use('/api/v1/jobs', authenticateUser, jobRouter);
 app.use('/api/v1/users', authenticateUser, userRouter);
 app.use('/api/v1/auth', authRouter);
 
+const distPath = path.join(__dirname, 'client', 'dist');
+console.log('Serving static files from:', distPath);
+app.use(express.static(distPath));
+
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './client/dist', 'index.html'));
+  res.sendFile(path.join(distPath, 'index.html'), (err) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
 });
+
 
 app.use('*', (req, res) => {
   res.status(404).json({ msg: 'not found' });
@@ -61,7 +86,7 @@ app.use('*', (req, res) => {
 
 app.use(errorHandlerMiddleware);
 
-const port = process.env.PORT || 5100;
+const port = process.env.PORT || 3000;
 
 try {
   await mongoose.connect(process.env.MONGO_URL);
@@ -69,6 +94,6 @@ try {
     console.log(`server running on PORT ${port}...`);
   });
 } catch (error) {
-  console.log(error);
+  console.log("error starting server", error);
   process.exit(1);
 }
