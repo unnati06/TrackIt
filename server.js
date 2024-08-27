@@ -4,6 +4,7 @@ dotenv.config();
 import express from 'express';
 const app = express();
 import morgan from 'morgan';
+import cors from 'cors';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import cloudinary from 'cloudinary';
